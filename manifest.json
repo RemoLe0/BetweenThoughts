@@ -1,10 +1,10 @@
 {
   "id": "between-thoughts",
   "name": "Between Thoughts",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "minAppVersion": "0.15.0",
   "description": "Create meaningful connections between notes through reflection. A lightweight plugin for building relationships in your knowledge base.",
-  "author": "Your Name",
-  "authorUrl": "https://github.com/yourusername",
+  "author": "Remo Leopold",
+  "authorUrl": "https://github.com/RemoLe0/BetweenThoughts",
   "isDesktopOnly": false
 }

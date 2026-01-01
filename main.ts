@@ -438,11 +438,11 @@ class ConnectionModal extends Modal {
         
         const notesList = notesContainer.createDiv({ cls: 'between-thoughts-notes-list' });
         notesList.createEl('div', { 
-            text: `📄 ${this.note1.basename}`,
+            text: `• ${this.note1.basename}`,
             cls: 'between-thoughts-note-item'
         });
         notesList.createEl('div', { 
-            text: `📄 ${this.note2.basename}`,
+            text: `• ${this.note2.basename}`,
             cls: 'between-thoughts-note-item'
         });
 
