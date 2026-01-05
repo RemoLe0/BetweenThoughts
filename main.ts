@@ -84,7 +84,7 @@ export default class BetweenThoughtsPlugin extends Plugin {
 
         // Add ribbon icon if enabled
         if (this.settings.enableRibbonIcon) {
-            this.addRibbonIcon();
+            this.addPluginRibbonIcon();
         }
 
         // Add settings tab
@@ -155,13 +155,13 @@ export default class BetweenThoughtsPlugin extends Plugin {
      * - Returns HTMLElement for further customization
      * - Icon names from Lucide icon set (lucide.dev)
      */
-    addRibbonIcon() {
-        this.ribbonIconEl = this.addRibbonIcon(
-            'link-2', 
-            'Between Thoughts', 
-            () => this.initiateConnection(ConnectionMode.RANDOM)
-        );
-    }
+    addPluginRibbonIcon() {  
+    this.ribbonIconEl = super.addRibbonIcon( 
+        'link-2', 
+        'Between Thoughts', 
+        () => this.initiateConnection(ConnectionMode.RANDOM)
+    );
+}
 
     /**
      * Add context menu items for note files
@@ -577,7 +577,7 @@ class BetweenThoughtsSettingTab extends PluginSettingTab {
                     
                     // Refresh ribbon icon
                     if (value) {
-                        this.plugin.addRibbonIcon();
+                        this.plugin.addPluginRibbonIcon();
                     } else if (this.plugin.ribbonIconEl) {
                         this.plugin.ribbonIconEl.remove();
                         this.plugin.ribbonIconEl = null;
