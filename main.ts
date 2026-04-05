@@ -7,7 +7,8 @@ import {
     Modal,
     Notice,
     Menu,
-    MarkdownView
+    MarkdownView,
+    addIcon
 } from 'obsidian';
 
 /**
@@ -80,6 +81,9 @@ export default class BetweenThoughtsPlugin extends Plugin {
 
         // Load saved settings
         await this.loadSettings();
+
+        // Register custom ribbon icon
+        addIcon('between-thoughts-custom', `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.69 1.93a.52.71 0 0 0-.24.17L1.59 11c-.01.5.01.5.01.99l6.57 9.53a.52.71 0 0 0 .74.02l4.69-5.11a5.78 5.78 0 1 0-3.79-10.27l-1-1.23a.52.71 0 0 0-.5-.2Zm.12 1.69 3.66 5.16a3.48 3.48 0 0 0-1.16 3.46c0 1.07.29 2.07.8 2.92l-3.37 5.54-5.85-8.25ZM17 7.89c2.42 0 4.38 1.94 4.38 4.36 0 2.42-1.96 4.37-4.38 4.37a4.34 4.34 0 0 1-3.36-1.57l2.04-2.65a.52.71 0 0 0 .02-1l-3-4.3c.78-.72 1.82-1.16 2.97-1.16ZM13.25 10l1.33 1.87-1.61 2.09c-.22-.52-.35-1.1-.35-1.71 0-.83.23-1.6.63-2.25z" /></svg>`);
 
         // Register commands in Command Palette
         this.registerCommands();
@@ -159,7 +163,7 @@ export default class BetweenThoughtsPlugin extends Plugin {
      */
     addPluginRibbonIcon() {  
     this.ribbonIconEl = super.addRibbonIcon( 
-        'link-2', 
+        'between-thoughts-custom', 
         'Between Thoughts', 
         () => this.initiateConnection(this.settings.defaultConnectionMode as ConnectionMode)
     );
