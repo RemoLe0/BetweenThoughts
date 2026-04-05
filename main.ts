@@ -449,11 +449,11 @@ class ConnectionModal extends Modal {
         
         const notesList = notesContainer.createDiv({ cls: 'between-thoughts-notes-list' });
         notesList.createEl('div', { 
-            text: `• ${this.note1.basename}`,
+            text: `${this.note1.basename}`,
             cls: 'between-thoughts-note-item'
         });
         notesList.createEl('div', { 
-            text: `• ${this.note2.basename}`,
+            text: `${this.note2.basename}`,
             cls: 'between-thoughts-note-item'
         });
 
@@ -461,8 +461,10 @@ class ConnectionModal extends Modal {
         const titleContainer = contentEl.createDiv({ cls: 'between-thoughts-input-group' });
         titleContainer.createEl('label', { text: 'Connection Title:' });
         const titleInput = titleContainer.createEl('input', {
-            type: 'text',
-            placeholder: 'What connects these notes?'
+            attr: {
+                type: 'text',
+                placeholder: 'Place a meanigful name for this connection...'
+            }
         });
         titleInput.addClass('between-thoughts-input');
 
@@ -470,7 +472,9 @@ class ConnectionModal extends Modal {
         const contentContainer = contentEl.createDiv({ cls: 'between-thoughts-input-group' });
         contentContainer.createEl('label', { text: 'Reflection (optional):' });
         const contentInput = contentContainer.createEl('textarea', {
-            placeholder: 'Describe the relationship between these notes...'
+            attr: {
+                placeholder: 'Describe the relationship between these notes...'
+            }
         });
         contentInput.addClass('between-thoughts-textarea');
         contentInput.rows = 5;
