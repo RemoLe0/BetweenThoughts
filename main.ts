@@ -21,6 +21,7 @@ interface BetweenThoughtsSettings {
     excludeFolders: string[];        // Folders to exclude from random selection
     enableRibbonIcon: boolean;       // Show ribbon icon
     templateContent: string;         // Custom template for connection notes
+    defaultConnectionMode: string;   // Default connection mode
 }
 
 /**
@@ -32,7 +33,8 @@ const DEFAULT_SETTINGS: BetweenThoughtsSettings = {
     defaultConnectionType: 'reflection',
     excludeFolders: [],
     enableRibbonIcon: true,
-    templateContent: '# {{title}}\n\n**Connected Notes:**\n- [[{{note1}}]]\n- [[{{note2}}]]\n\n**Reflection:**\n{{content}}\n\n---\n*Created: {{date}}*'
+    templateContent: '# {{title}}\n\n**Connected Notes:**\n- [[{{note1}}]]\n- [[{{note2}}]]\n\n**Reflection:**\n{{content}}\n\n---\n*Created: {{date}}*',
+    defaultConnectionMode: 'random'
 };
 
 /**
@@ -66,7 +68,7 @@ interface ConnectionData {
  * - Settings are persisted automatically via saveData/loadData
  */
 export default class BetweenThoughtsPlugin extends Plugin {
-    settings: BetweenThoughtsSettings;
+    settings!: BetweenThoughtsSettings;
     ribbonIconEl: HTMLElement | null = null;
 
     /**
@@ -159,7 +161,7 @@ export default class BetweenThoughtsPlugin extends Plugin {
     this.ribbonIconEl = super.addRibbonIcon( 
         'link-2', 
         'Between Thoughts', 
-        () => this.initiateConnection(ConnectionMode.RANDOM)
+        () => this.initiateConnection(this.settings.defaultConnectionMode as ConnectionMode)
     );
 }
 
@@ -184,6 +186,15 @@ export default class BetweenThoughtsPlugin extends Plugin {
      * Selects notes and opens connection modal
      */
     async initiateConnection(mode: ConnectionMode, contextFile?: TFile) {
+        if (mode === ConnectionMode.CONTEXTUAL && !contextFile) {
+            const activeFile = this.app.workspace.getActiveFile();
+            if (!activeFile) {
+                new Notice('No active note found for contextual connection');
+                return;
+            }
+            contextFile = activeFile;
+        }
+
         const notes = await this.selectNotes(mode, contextFile);
         
         if (!notes) {
@@ -562,6 +573,20 @@ class BetweenThoughtsSettingTab extends PluginSettingTab {
                 .setValue(this.plugin.settings.defaultConnectionType)
                 .onChange(async (value) => {
                     this.plugin.settings.defaultConnectionType = value;
+                    await this.plugin.saveSettings();
+                }));
+
+        // Default connection mode
+        new Setting(containerEl)
+            .setName('Default connection mode')
+            .setDesc('Default mode when using ribbon icon')
+            .addDropdown(dropdown => dropdown
+                .addOption('random', 'Random')
+                .addOption('contextual', 'Contextual')
+                .addOption('manual', 'Manual')
+                .setValue(this.plugin.settings.defaultConnectionMode)
+                .onChange(async (value) => {
+                    this.plugin.settings.defaultConnectionMode = value;
                     await this.plugin.saveSettings();
                 }));
 
