@@ -11,7 +11,7 @@ Between Thoughts helps you build relationships in your knowledge base by prompti
 - **Multiple Connection Modes:**
   - Random: Connect two random notes from your vault
   - Contextual: Connect current note with a random note
-  - Manual: Choose both notes yourself (coming soon)
+  - Manual: Choose both notes yourself *(currently in development)*
 
 - **Simple Workflow:**
   1. Trigger connection via Command Palette, ribbon icon, or context menu
@@ -25,6 +25,20 @@ Between Thoughts helps you build relationships in your knowledge base by prompti
   - Exclude specific folders from selection
   - Add timestamps to filenames
   - Toggle ribbon icon visibility
+
+## Author
+
+**Remo Leopold** - [GitHub Profile](https://github.com/RemoLe0)
+
+## Privacy & Data
+
+Between Thoughts is designed with privacy as a core principle:
+
+- **No external services**: The plugin operates entirely within your local Obsidian vault
+- **No data collection**: This plugin does not collect, store, or transmit any user data
+- **No telemetry**: No analytics or tracking of any kind
+- **Offline-first**: Works completely offline with no internet connection required
+- **Open source**: All code is transparent and publicly available
 
 - **Plain Markdown Output:**
   - All connections stored as standard `.md` files
@@ -144,174 +158,6 @@ Between Thoughts follows these principles:
 - **Extensibility:** Works seamlessly with other plugins (Dataview, Graph Analysis, etc.)
 - **User Agency:** You control the connections and their meaning
 
-## Obsidian API Usage
-
-This plugin uses the following Obsidian APIs:
-
-### Core APIs
-- `Plugin` - Base plugin class
-- `App` - Main application interface
-- `Vault` - File system operations
-- `Workspace` - Window and leaf management
-
-### UI Components
-- `Modal` - Connection creation dialog
-- `PluginSettingTab` - Settings interface
-- `Notice` - User notifications
-- `Menu` - Context menu integration
-- `Setting` - Settings UI elements
-
-### File Operations
-- `vault.getMarkdownFiles()` - List all markdown files
-- `vault.create()` - Create new files
-- `vault.createFolder()` - Create folders
-- `vault.adapter.exists()` - Check file existence
-- `workspace.getLeaf()` - Get workspace leaf
-- `leaf.openFile()` - Open files in editor
-
-### Event Handling
-- `registerEvent()` - Register event listeners with cleanup
-- `workspace.on('file-menu')` - File context menu events
-- `addCommand()` - Command palette commands
-- `addRibbonIcon()` - Sidebar ribbon icons
-
-## Development
-
-### Build Commands
-
-```bash
-# Install dependencies
-npm install
-
-# Development mode (watch)
-npm run dev
-
-# Production build
-npm run build
-
-# Version bump
-npm version patch/minor/major
-```
-
-### Project Structure
-
-```
-between-thoughts/
-├── main.ts              # Main plugin code
-├── manifest.json        # Plugin metadata
-├── package.json         # Dependencies
-├── tsconfig.json        # TypeScript config
-├── esbuild.config.mjs   # Build configuration
-├── version-bump.mjs     # Version management
-├── versions.json        # Version compatibility
-├── styles.css           # Plugin styles
-└── README.md           # This file
-```
-
-### Key Components
-
-**BetweenThoughtsPlugin**
-- Main plugin class
-- Handles command registration
-- Manages settings
-- Coordinates connection workflow
-
-**ConnectionModal**
-- User interface for creating connections
-- Input validation
-- Styled with CSS
-
-**BetweenThoughtsSettingTab**
-- Settings configuration UI
-- Real-time setting updates
-
-## Extending the Plugin
-
-Because all outputs are standard markdown, you can:
-
-### Query with Dataview
-
-```dataview
-TABLE connected, mode
-FROM "Connections"
-WHERE type = "reflection"
-SORT created DESC
-```
-
-### Search Connections
-
-```
-path:Connections tag:#important
-```
-
-### Build Custom Workflows
-
-Create your own review system, spaced repetition, or analytics using the generated connection notes.
-
-## Publishing Your Plugin
-
-To submit this plugin to the Obsidian Community Plugins:
-
-### Prerequisites
-
-1. Create a GitHub repository for your plugin
-2. Add the following files to your repository:
-   - `main.js` (compiled)
-   - `manifest.json`
-   - `styles.css`
-   - `README.md`
-   - `LICENSE` (MIT recommended)
-
-### Submission Process
-
-1. **Prepare Your Repository:**
-   ```bash
-   # Build production version
-   npm run build
-   
-   # Create a release
-   git tag -a 1.0.0 -m "Initial release"
-   git push origin 1.0.0
-   ```
-
-2. **Create GitHub Release:**
-   - Go to your repository → Releases → Create new release
-   - Tag version: `1.0.0`
-   - Title: `1.0.0 - Initial Release`
-   - Attach: `main.js`, `manifest.json`, `styles.css`
-   - Publish release
-
-3. **Submit to Community Plugins:**
-   - Fork [obsidian-releases](https://github.com/obsidianmd/obsidian-releases)
-   - Add your plugin to `community-plugins.json`:
-   ```json
-   {
-     "id": "between-thoughts",
-     "name": "Between Thoughts",
-     "author": "Your Name",
-     "description": "Create meaningful connections between notes through reflection",
-     "repo": "yourusername/obsidian-between-thoughts"
-   }
-   ```
-   - Create pull request
-   - Wait for review (usually 1-2 weeks)
-
-4. **Requirements for Approval:**
-   - Clear README with usage instructions
-   - No security vulnerabilities
-   - No unnecessary API permissions
-   - Proper error handling
-   - Clean code without console spam
-   - Works on desktop and mobile (unless marked desktop-only)
-
-### Updating Your Plugin
-
-1. Update version in `manifest.json`
-2. Run `npm version patch/minor/major`
-3. Build: `npm run build`
-4. Create new GitHub release with updated files
-5. Users will get automatic update notifications
-
 ## Troubleshooting
 
 **Plugin doesn't appear:**
@@ -344,9 +190,10 @@ MIT License - See LICENSE file for details
 
 ## Support
 
-- GitHub Issues: Report bugs and request features
-- Obsidian Forum: Community discussion
-- Documentation: [Obsidian Plugin Developer Docs](https://docs.obsidian.md/Plugins/Getting+started/Build+a+plugin)
+- **GitHub Repository**: [BetweenThoughts](https://github.com/RemoLe0/BetweenThoughts)
+- **GitHub Issues**: [Report bugs and request features](https://github.com/RemoLe0/BetweenThoughts/issues)
+- **Obsidian Forum**: Community discussion
+- **Documentation**: [Obsidian Plugin Developer Docs](https://docs.obsidian.md/Plugins/Getting+started/Build+a+plugin)
 
 ## Credits
 

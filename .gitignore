@@ -64,3 +64,7 @@ coverage/
 
 # Windows
 $RECYCLE.BIN/
+
+# User specific settings
+data.json
+.obsidian/
