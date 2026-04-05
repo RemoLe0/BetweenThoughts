@@ -39,6 +39,33 @@
     color: var(--text-normal);
 }
 
+.between-thoughts-manual-notes-list {
+    display: grid;
+    gap: 0.5rem;
+    max-height: 320px;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+}
+
+.between-thoughts-note-selected {
+    border-color: var(--interactive-accent);
+    background-color: var(--background-secondary);
+}
+
+.between-thoughts-note-item-title {
+    font-weight: 600;
+}
+
+.between-thoughts-note-item-path {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.between-thoughts-note-selection-status {
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+}
+
 .between-thoughts-input {
     width: 100%;
     padding: 0.5rem;
