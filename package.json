@@ -1,6 +1,6 @@
 {
   "name": "obsidian-between-thoughts",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Create meaningful connections between notes through reflection",
   "main": "main.js",
   "scripts": {
