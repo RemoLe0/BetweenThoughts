@@ -7,7 +7,9 @@ import {
     Modal,
     Notice,
     Menu,
-    MarkdownView
+    MarkdownView,
+    MarkdownRenderer,
+    addIcon
 } from 'obsidian';
 
 /**
@@ -248,13 +250,20 @@ export default class BetweenThoughtsPlugin extends Plugin {
                 return randomFile ? [contextFile, randomFile] : null;
             
             case ConnectionMode.MANUAL:
-                // For manual mode, we'd need a note picker modal
-                // Simplified for this implementation
-                return this.selectRandomPair(eligibleFiles);
+                return this.selectManualNotes(eligibleFiles);
             
             default:
                 return null;
         }
+    }
+
+    /**
+     * Select notes manually using a picker modal
+     */
+    async selectManualNotes(files: TFile[]): Promise<[TFile, TFile] | null> {
+        return new Promise((resolve) => {
+            new ManualSelectionModal(this.app, files, resolve).open();
+        });
     }
 
     /**
@@ -443,19 +452,33 @@ class ConnectionModal extends Modal {
         // Modal title
         contentEl.createEl('h2', { text: 'Create Connection' });
 
-        // Display selected notes
+        // Display selected notes with preview buttons
         const notesContainer = contentEl.createDiv({ cls: 'between-thoughts-notes' });
         notesContainer.createEl('h3', { text: 'Connecting:' });
         
         const notesList = notesContainer.createDiv({ cls: 'between-thoughts-notes-list' });
-        notesList.createEl('div', { 
-            text: `${this.note1.basename}`,
-            cls: 'between-thoughts-note-item'
-        });
-        notesList.createEl('div', { 
-            text: `${this.note2.basename}`,
-            cls: 'between-thoughts-note-item'
-        });
+        
+        // Note 1 with preview button
+        const note1Item = notesList.createDiv({ cls: 'between-thoughts-note-item' });
+        const note1Header = note1Item.createDiv({ cls: 'between-thoughts-note-header' });
+        note1Header.createEl('span', { text: `${this.note1.basename}` });
+        const previewBtn1 = note1Header.createEl('button', { text: '👁️' });
+        previewBtn1.addClass('between-thoughts-preview-button');
+        previewBtn1.onclick = (e) => {
+            e.stopPropagation();
+            new NotePreviewModal(this.app, this.note1).open();
+        };
+
+        // Note 2 with preview button
+        const note2Item = notesList.createDiv({ cls: 'between-thoughts-note-item' });
+        const note2Header = note2Item.createDiv({ cls: 'between-thoughts-note-header' });
+        note2Header.createEl('span', { text: `${this.note2.basename}` });
+        const previewBtn2 = note2Header.createEl('button', { text: '👁️' });
+        previewBtn2.addClass('between-thoughts-preview-button');
+        previewBtn2.onclick = (e) => {
+            e.stopPropagation();
+            new NotePreviewModal(this.app, this.note2).open();
+        };
 
         // Connection title input
         const titleContainer = contentEl.createDiv({ cls: 'between-thoughts-input-group' });
@@ -519,6 +542,204 @@ class ConnectionModal extends Modal {
     onClose() {
         const { contentEl } = this;
         contentEl.empty();
+    }
+}
+
+/**
+ * Note Preview Modal
+ * Displays the full content of a note in a modal dialog
+ */
+class NotePreviewModal extends Modal {
+    file: TFile;
+
+    constructor(app: App, file: TFile) {
+        super(app);
+        this.file = file;
+    }
+
+    async onOpen() {
+        const { contentEl, titleEl } = this;
+        
+        // Set modal title
+        titleEl.setText(`Preview: ${this.file.basename}`);
+
+        // Create scrollable container
+        const scrollContainer = contentEl.createDiv({ cls: 'between-thoughts-preview-container' });
+        scrollContainer.style.maxHeight = '60vh';
+        scrollContainer.style.overflowY = 'auto';
+        scrollContainer.style.padding = '10px';
+
+        try {
+            // Load file content
+            const content = await this.app.vault.cachedRead(this.file);
+
+            // Render markdown to HTML (reading view)
+            // @ts-ignore - MarkdownRenderer.renderMarkdown compatibility
+            await MarkdownRenderer.renderMarkdown(content, scrollContainer, this.file.path, this);
+        } catch (error) {
+            contentEl.createEl('div', {
+                text: 'Error loading preview',
+                cls: 'between-thoughts-preview-error'
+            });
+            console.error('Error loading note preview:', error);
+        }
+    }
+
+    onClose() {
+        const { contentEl } = this;
+        contentEl.empty();
+    }
+}
+
+/**
+ * Manual Note Selection Modal
+ * Allows user to search and select exactly two notes for connection
+ */
+class ManualSelectionModal extends Modal {
+    files: TFile[];
+    onSubmit: (selection: [TFile, TFile] | null) => void;
+    selectedPaths: Set<string> = new Set();
+    resultsEl!: HTMLElement;
+    searchInput!: HTMLInputElement;
+    submitButton!: HTMLButtonElement;
+    selectionStatusEl!: HTMLElement;
+    resolved = false;
+
+    constructor(
+        app: App,
+        files: TFile[],
+        onSubmit: (selection: [TFile, TFile] | null) => void
+    ) {
+        super(app);
+        this.files = files;
+        this.onSubmit = onSubmit;
+    }
+
+    onOpen() {
+        const { contentEl } = this;
+        contentEl.empty();
+
+        contentEl.createEl('h2', { text: 'Select two notes' });
+        contentEl.createEl('p', {
+            text: 'Choose exactly two notes for the connection. Use the search box to filter notes.',
+            cls: 'setting-item-description'
+        });
+
+        const statusContainer = contentEl.createDiv({ cls: 'between-thoughts-input-group' });
+        this.selectionStatusEl = statusContainer.createEl('div', {
+            text: `Selected: ${this.selectedPaths.size} / 2`,
+            cls: 'between-thoughts-note-selection-status'
+        });
+
+        const filterContainer = contentEl.createDiv({ cls: 'between-thoughts-input-group' });
+        filterContainer.createEl('label', { text: 'Filter notes:' });
+        this.searchInput = filterContainer.createEl('input', {
+            attr: {
+                type: 'text',
+                placeholder: 'Search by title or path...'
+            }
+        }) as HTMLInputElement;
+        this.searchInput.addClass('between-thoughts-input');
+        this.searchInput.addEventListener('input', () => this.renderNotes());
+
+        this.resultsEl = contentEl.createDiv({ cls: 'between-thoughts-manual-notes-list' });
+        this.renderNotes();
+
+        const buttonContainer = contentEl.createDiv({ cls: 'between-thoughts-buttons' });
+
+        this.submitButton = buttonContainer.createEl('button', { text: 'Continue' }) as HTMLButtonElement;
+        this.submitButton.addClass('mod-cta');
+        this.submitButton.disabled = true;
+        this.submitButton.onclick = () => {
+            if (this.selectedPaths.size !== 2) {
+                new Notice('Please select exactly two notes');
+                return;
+            }
+
+            const selectedFiles = this.files.filter(file => this.selectedPaths.has(file.path));
+            this.resolved = true;
+            this.onSubmit([selectedFiles[0], selectedFiles[1]]);
+            this.close();
+        };
+
+        const cancelButton = buttonContainer.createEl('button', { text: 'Cancel' });
+        cancelButton.onclick = () => {
+            this.resolved = true;
+            this.onSubmit(null);
+            this.close();
+        };
+    }
+
+    onClose() {
+        if (!this.resolved) {
+            this.onSubmit(null);
+        }
+        const { contentEl } = this;
+        contentEl.empty();
+    }
+
+    renderNotes() {
+        const query = this.searchInput?.value.toLowerCase().trim() ?? '';
+        const filteredFiles = this.files.filter(file => {
+            const text = `${file.basename} ${file.path}`.toLowerCase();
+            return text.includes(query);
+        });
+
+        this.resultsEl.empty();
+
+        if (filteredFiles.length === 0) {
+            this.resultsEl.createEl('div', {
+                text: 'No notes match your filter.',
+                cls: 'between-thoughts-note-item'
+            });
+            return;
+        }
+
+        filteredFiles.forEach(file => {
+            const item = this.resultsEl.createDiv({
+                cls: 'between-thoughts-note-item'
+            });
+
+            if (this.selectedPaths.has(file.path)) {
+                item.addClass('between-thoughts-note-selected');
+            }
+
+            item.createEl('div', {
+                text: file.basename,
+                cls: 'between-thoughts-note-item-title'
+            });
+
+            item.createEl('div', {
+                text: file.path,
+                cls: 'between-thoughts-note-item-path'
+            });
+
+            item.onclick = () => this.toggleSelection(file);
+        });
+
+        this.updateSelectionState();
+    }
+
+    toggleSelection(file: TFile) {
+        if (this.selectedPaths.has(file.path)) {
+            this.selectedPaths.delete(file.path);
+        } else if (this.selectedPaths.size >= 2) {
+            new Notice('You can only select two notes');
+            return;
+        } else {
+            this.selectedPaths.add(file.path);
+        }
+
+        this.renderNotes();
+    }
+
+    updateSelectionState() {
+        if (this.selectionStatusEl) {
+            this.selectionStatusEl.setText(`Selected: ${this.selectedPaths.size} / 2`);
+        }
+        if (this.submitButton) {
+            this.submitButton.disabled = this.selectedPaths.size !== 2;
+        }
     }
 }
 
