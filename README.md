@@ -272,7 +272,7 @@ ln -s $(pwd) /path/to/vault/.obsidian/plugins/between-thoughts
 
 Access via Settings → Between Thoughts
 
-![Screenshot description](./attachments/screenshot_settings.png)
+![Screenshot Settings](./attachments/screenshot_settings.png)
 
 ### Connection Folder
 **Default**: `Connections`
@@ -350,6 +350,8 @@ Show/hide chain link icon in left sidebar for quick access.
 
 ### Your First Connection (2 Minutes)
 
+![Screenshot Link](./attachments/screenshot_link_inputs.png)
+
 **Step 1: Open the plugin**
 - Click ribbon icon (chain link), OR
 - Command Palette (Ctrl/Cmd + P) → "Create connection between random notes"
@@ -374,6 +376,8 @@ Show/hide chain link icon in left sidebar for quick access.
 - Opens for further editing
 
 **That's it.** You've made your first connection.
+
+![Screenshot Connection](./attachments/screenshot_connection.png)
 
 ### Daily Practice (5-10 Minutes)
 
