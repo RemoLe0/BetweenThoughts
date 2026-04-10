@@ -4,6 +4,24 @@
 
 Train creative thinking by connecting notes across your vault. Manual reflection, not automation. Understanding, not just finding.
 
+## Table of Contents
+
+[The Problem](#the-problem) || [The Solution](#the-solution)
+
+[Why This Matters](#why-this-matters) || [Philosophy](#philosophy)
+
+[Key Features](#key-features)
+
+[Installation](#installation) || [Settings](#settings) || [Quick Start Proposal](#quick-start-proposal)
+
+[Potential Use Cases and Examples](#potential-use-cases-and-examples)
+
+[Feature Roadmap](#feature-roadmap)
+
+[Contributing](#contributing)
+
+[License](#license)
+
 ---
 
 ## The Problem
@@ -19,7 +37,7 @@ Between Thoughts pairs notes and prompts reflection. Not random chaos—**you co
 **Choose your mode:**
 - **Random**: Unexpected pairings across your vault
 - **Contextual**: Current note + another (build on your work)
-- **Manual**: You pick both notes *(coming soon)*
+- **Manual**: You pick both notes
 
 **Control what's included:**
 - Exclude specific folders (Templates, Archives, etc.)
@@ -44,7 +62,7 @@ Over time, you see patterns in your thinking. You discover your cognitive style.
 
 The plugin is a tool. The value is the **practice**.
 
-Creative thinking isn't magic—it's a skill. Like any skill:
+Creative thinking isn't magic - it's a skill. Like any skill:
 - It requires regular practice
 - It needs deliberate effort
 - It builds pattern recognition
@@ -56,7 +74,7 @@ Between Thoughts is your practice tool.
 
 Think of standard wiki links as roads between cities. You travel from Note A to Note B.
 
-**Connection notes are rest stops.**
+**Connection notes are rest stops - adaptable according to your needs.**
 
 On a road, you just drive across. At a rest stop, you pause. You reflect. You articulate: "Why am I traveling this route? What connects these destinations?"
 
@@ -84,19 +102,78 @@ This isn't anti-AI. It's pro-understanding.
 
 **Both together > either alone**
 
-### Real Outcomes
-
-After months of practice, users report:
-- Giving more thoughtful gifts (connecting friend's interests)
-- Solving problems creatively (cross-domain insights)
-- Understanding their own thinking (meta-cognitive awareness)
-- Being known as "the creative one" in their teams
 
 > The goal isn't productivity. It's depth, meaning, and genuine creativity.
 
 ---
 
-## Features
+## Philosophy
+
+### Why Manual?
+
+**AI finds connections. You need to understand them.**
+
+When you manually reflect:
+- You **own** the insight (not just consume it)
+- You **remember** the reasoning (not just the link)
+- You **build** thinking skills (not just a database)
+- You **train** pattern recognition (not just retrieve)
+
+**This is practice, not productivity.**
+
+### The Interface Principle
+
+Think of standard wiki links like `void*` pointers in C++:
+- They point somewhere
+- But they don't explain the **type** of relationship
+- They don't define the **contract** between ideas
+
+**Between Thoughts creates interface files**, not just pointers.
+
+**Standard Link**: A road. You drive across it to the destination.
+**Connection Note**: A rest stop. You must pause and articulate WHY this road exists.
+
+#### Header vs. Implementation
+
+In C++, we separate **what** is done (header/interface) from **how** it's done (implementation).
+
+- **Note A**: Describes Topic A (implementation)
+- **Note B**: Describes Topic B (implementation)  
+- **Connection Note**: Defines the relationship interface (header)
+
+**Single Responsibility**: 
+- Without this plugin: Note A must explain why it relates to Note B (contamination)
+- With this plugin: Note A describes A. Note B describes B. Connection note carries sole responsibility for the relationship.
+
+**Benefit**: Change your understanding of WHY they connect? Update only the interface (connection note), not the implementations (original notes).
+
+#### Polymorphic Thinking
+
+Interfaces can be implemented by many classes.
+
+Example: Create a connection note called "Contradiction.md"
+- Defines how two opposing ideas form synthesis
+- Apply between "Capitalism" ↔ "Socialism"
+- Also apply between "Light" ↔ "Shadow"
+- Same **interface pattern**, different **implementations**
+
+**The connection note becomes a template for logical relationships.**
+
+You're not just drawing lines. You're defining **categories of thinking**.
+
+#### Type Safety for Knowledge
+
+Standard links: **Implicit cast** (hope it makes sense later)
+Connection notes: **Explicit contract** (document the relationship now)
+
+This elevates linking from a technical necessity ("I want to click there") to an **epistemological action** ("I explain why these belong together").
+
+**In software terms**: You're making your knowledge graph type-safe and depth-oriented.
+
+
+---
+
+## Key Features
 
 ### Three Connection Modes
 
@@ -191,56 +268,11 @@ ln -s $(pwd) /path/to/vault/.obsidian/plugins/between-thoughts
 
 ---
 
-## Quick Start
-
-### Your First Connection (2 Minutes)
-
-**Step 1: Open the plugin**
-- Click ribbon icon (chain link), OR
-- Command Palette (Ctrl/Cmd + P) → "Create connection between random notes"
-
-**Step 2: See two notes paired**
-- Plugin shows you two note titles
-- Take a moment to observe
-- No rush, no pressure
-
-**Step 3: Reflect**
-- What connects these?
-- Why this pairing?
-- What pattern emerges?
-
-**Step 4: Write your connection**
-- **Title**: What's the connection? (required)
-- **Reflection**: Why does it matter? (optional)
-
-**Step 5: Create**
-- Connection note is generated
-- Saved to Connections folder
-- Opens for further editing
-
-**That's it.** You've made your first connection.
-
-### Daily Practice (5-10 Minutes)
-
-**Morning routine:**
-- Coffee + open Obsidian
-- Create one connection
-- Write brief reflection
-- Continue with day
-
-**Weekly review:**
-- Navigate to Connections folder
-- Read week's connections
-- Notice: What patterns emerge?
-- Reflect: What does this reveal about how you think?
-
-**The magic happens in the patterns.**
-
----
-
 ## Settings
 
 Access via Settings → Between Thoughts
+
+![Screenshot description](./attachments/screenshot_settings.png)
 
 ### Connection Folder
 **Default**: `Connections`
@@ -311,9 +343,90 @@ Metadata type in frontmatter. Useful for filtering with Dataview.
 
 Show/hide chain link icon in left sidebar for quick access.
 
+
 ---
 
-## Examples
+## Quick Start Proposal
+
+### Your First Connection (2 Minutes)
+
+**Step 1: Open the plugin**
+- Click ribbon icon (chain link), OR
+- Command Palette (Ctrl/Cmd + P) → "Create connection between random notes"
+
+**Step 2: See two notes paired**
+- Plugin shows you two note titles
+- Take a moment to observe
+- No rush, no pressure
+
+**Step 3: Reflect**
+- What connects these?
+- Why this pairing?
+- What pattern emerges?
+
+**Step 4: Write your connection**
+- **Title**: What's the connection? (required)
+- **Reflection**: Why does it matter? (optional)
+
+**Step 5: Create**
+- Connection note is generated
+- Saved to Connections folder
+- Opens for further editing
+
+**That's it.** You've made your first connection.
+
+### Daily Practice (5-10 Minutes)
+
+**Morning routine:**
+- Coffee + open Obsidian
+- Create one connection
+- Write brief reflection
+- Continue with day
+
+**Weekly review:**
+- Navigate to Connections folder
+- Read week's connections
+- Notice: What patterns emerge?
+- Reflect: What does this reveal about how you think?
+
+**The magic happens in the patterns.**
+
+
+---
+
+## Potential Use Cases and Examples
+
+### Academic Research
+- Connect concepts across disciplines
+- Find unexpected theoretical parallels
+- Build comprehensive mental models
+- Synthesize literature reviews
+
+### Creative Writing
+- Link character parallels across stories
+- Connect plot devices
+- Build thematic depth
+- Generate novel combinations
+
+### Product Design
+- Bridge user needs with technical constraints
+- Connect solutions from other domains
+- Find unexpected feature ideas
+- Build empathy through analogy
+
+### Personal Development
+- Recognize patterns in life decisions
+- Connect disparate experiences
+- Build self-understanding
+- Develop wisdom through reflection
+
+### Knowledge Work
+- Integrate ideas across projects
+- See cross-functional solutions
+- Build reputation as creative thinker
+- Train pattern recognition
+
+---
 
 ### Example 1: Random Discovery
 
@@ -374,122 +487,24 @@ Understanding my cognitive style helps me:
 
 **This is the real value.** Not the connections themselves—the awareness they create.
 
----
-
-## Use Cases
-
-### Academic Research
-- Connect concepts across disciplines
-- Find unexpected theoretical parallels
-- Build comprehensive mental models
-- Synthesize literature reviews
-
-### Creative Writing
-- Link character parallels across stories
-- Connect plot devices
-- Build thematic depth
-- Generate novel combinations
-
-### Product Design
-- Bridge user needs with technical constraints
-- Connect solutions from other domains
-- Find unexpected feature ideas
-- Build empathy through analogy
-
-### Personal Development
-- Recognize patterns in life decisions
-- Connect disparate experiences
-- Build self-understanding
-- Develop wisdom through reflection
-
-### Knowledge Work
-- Integrate ideas across projects
-- See cross-functional solutions
-- Build reputation as creative thinker
-- Train pattern recognition
 
 ---
 
-## Philosophy
-
-### Why Manual?
-
-**AI finds connections. You need to understand them.**
-
-When you manually reflect:
-- You **own** the insight (not just consume it)
-- You **remember** the reasoning (not just the link)
-- You **build** thinking skills (not just a database)
-- You **train** pattern recognition (not just retrieve)
-
-**This is practice, not productivity.**
-
-### The Interface Principle
-
-Think of standard wiki links like `void*` pointers in C++:
-- They point somewhere
-- But they don't explain the **type** of relationship
-- They don't define the **contract** between ideas
-
-**Between Thoughts creates interface files**, not just pointers.
-
-**Standard Link**: A road. You drive across it to the destination.
-**Connection Note**: A rest stop. You must pause and articulate WHY this road exists.
-
-#### Header vs. Implementation
-
-In C++, we separate **what** is done (header/interface) from **how** it's done (implementation).
-
-- **Note A**: Describes Topic A (implementation)
-- **Note B**: Describes Topic B (implementation)  
-- **Connection Note**: Defines the relationship interface (header)
-
-**Single Responsibility**: 
-- Without this plugin: Note A must explain why it relates to Note B (contamination)
-- With this plugin: Note A describes A. Note B describes B. Connection note carries sole responsibility for the relationship.
-
-**Benefit**: Change your understanding of WHY they connect? Update only the interface (connection note), not the implementations (original notes).
-
-#### Polymorphic Thinking
-
-Interfaces can be implemented by many classes.
-
-Example: Create a connection note called "Contradiction.md"
-- Defines how two opposing ideas form synthesis
-- Apply between "Capitalism" ↔ "Socialism"
-- Also apply between "Light" ↔ "Shadow"
-- Same **interface pattern**, different **implementations**
-
-**The connection note becomes a template for logical relationships.**
-
-You're not just drawing lines. You're defining **categories of thinking**.
-
-#### Type Safety for Knowledge
-
-Standard links: **Implicit cast** (hope it makes sense later)
-Connection notes: **Explicit contract** (document the relationship now)
-
-This elevates linking from a technical necessity ("I want to click there") to an **epistemological action** ("I explain why these belong together").
-
-**In software terms**: You're making your knowledge graph type-safe and depth-oriented.
-
----
-
-## Roadmap
+## Feature Roadmap
 
 **v0.1.0** ✅ (Current)
-- Two connection modes
+- Two connection modes (random, contextual, manual)
 - Exclude folders
 - Custom templates
 - Privacy-first design
 
 **Future Ideas** (Community-Driven)
-- Third connection mode
+- Include folders
+- Preview option for notes while connecting
 - "Reflect Later" queue
 - Connection review mode
-- Statistics dashboard (opt-in)
 - Pattern visualization
-- Export capabilities
+- "Thinking spaces" for individual configurations
 
 **No timeline.** Development driven by user feedback and maintainer's free time.
 
@@ -526,15 +541,12 @@ Contributions welcome! Ways to help:
 4. Test thoroughly
 5. Submit pull request
 
-See [CONTRIBUTING.md](link) for details.
 
 ---
 
 ## License
 
 MIT License - See [LICENSE](LICENSE) file for details.
-
-**Open source. Free forever. No premium features.**
 
 ---
 
