@@ -257,8 +257,17 @@ This elevates linking from a technical necessity ("I want to click there") to an
 4. Search "Between Thoughts"
 5. Click Install, then Enable
 
-### Manual Installation *(Available Now)*
+### Via BRAT *(Available now for beta testing)*
+The easiest way to stay up to date with the latest features and fixes is using the [Obsidian 42 - BRAT](https://github.com/TfTHacker/obsidian42-brat) plugin.
+1. Install **BRAT** from the Community Plugins store.
+2. Open Settings → BRAT → Beta Plugin List.
+3. Click Add Beta plugin.
+4. Paste the repository URL: https://github.com/RemoLe0/BetweenThoughts
+5. Click Add Plugin.
+6. Enable Between Thoughts in Settings → Community Plugins.
 
+
+### Manual Installation 
 1. Download latest release from [GitHub](https://github.com/RemoLe0/BetweenThoughts/releases)
 2. Download: `main.js`, `manifest.json`, `styles.css`
 3. Create folder: `<vault>/.obsidian/plugins/between-thoughts/`
