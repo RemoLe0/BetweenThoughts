@@ -7,7 +7,8 @@ import {
     Modal,
     Notice,
     Menu,
-    MarkdownView
+    MarkdownView,
+    normalizePath
 } from 'obsidian';
 
 /**
@@ -220,13 +221,15 @@ export default class BetweenThoughtsPlugin extends Plugin {
      */
     async selectNotes(mode: ConnectionMode, contextFile?: TFile): Promise<[TFile, TFile] | null> {
         const allFiles = this.app.vault.getMarkdownFiles();
+        const normalizedConnectionFolder = normalizePath(this.settings.connectionFolder);
+        const normalizedExcludeFolders = this.settings.excludeFolders.map(f => normalizePath(f));
         
         // Filter out excluded folders and connection folder
         const eligibleFiles = allFiles.filter(file => {
-            if (file.path.startsWith(this.settings.connectionFolder + '/')) {
+            if (file.path.startsWith(normalizedConnectionFolder + '/')) {
                 return false;
             }
-            return !this.settings.excludeFolders.some(folder => 
+            return !normalizedExcludeFolders.some(folder => 
                 file.path.startsWith(folder + '/')
             );
         });
@@ -302,9 +305,14 @@ export default class BetweenThoughtsPlugin extends Plugin {
 
         // Ensure connection folder exists
         // OBSIDIAN API: createFolder() creates folder and parent folders
-        const folderPath = this.settings.connectionFolder;
-        if (!(await this.app.vault.adapter.exists(folderPath))) {
-            await this.app.vault.createFolder(folderPath);
+        const folderPath = normalizePath(this.settings.connectionFolder);
+        if (!this.app.vault.getFolderByPath(folderPath)) {
+            try {
+                await this.app.vault.createFolder(folderPath);
+            } catch (e) {
+                // Folder may already exist
+                console.debug('Folder creation error:', e);
+            }
         }
 
         // Generate filename
@@ -448,11 +456,11 @@ class ConnectionModal extends Modal {
         contentEl.empty();
 
         // Modal title
-        contentEl.createEl('h2', { text: 'Create Connection' });
+        new Setting(contentEl).setHeading().setName('Create Connection');
 
         // Display selected notes
         const notesContainer = contentEl.createDiv({ cls: 'between-thoughts-notes' });
-        notesContainer.createEl('h3', { text: 'Connecting:' });
+        new Setting(notesContainer).setHeading().setName('Connecting');
         
         const notesList = notesContainer.createDiv({ cls: 'between-thoughts-notes-list' });
         notesList.createEl('div', { 
@@ -553,7 +561,7 @@ class ManualSelectionModal extends Modal {
         const { contentEl } = this;
         contentEl.empty();
 
-        contentEl.createEl('h2', { text: 'Select two notes' });
+        new Setting(contentEl).setHeading().setName('Select two notes');
         contentEl.createEl('p', {
             text: 'Choose exactly two notes for the connection. Use the search box to filter notes.',
             cls: 'setting-item-description'
@@ -697,8 +705,6 @@ class BetweenThoughtsSettingTab extends PluginSettingTab {
         const { containerEl } = this;
         containerEl.empty();
 
-        containerEl.createEl('h2', { text: 'Between Thoughts Settings' });
-
         // Connection folder setting
         new Setting(containerEl)
             .setName('Connection folder')
@@ -707,7 +713,7 @@ class BetweenThoughtsSettingTab extends PluginSettingTab {
                 .setPlaceholder('Connections')
                 .setValue(this.plugin.settings.connectionFolder)
                 .onChange(async (value) => {
-                    this.plugin.settings.connectionFolder = value;
+                    this.plugin.settings.connectionFolder = normalizePath(value || 'Connections');
                     await this.plugin.saveSettings();
                 }));
 
@@ -777,13 +783,13 @@ class BetweenThoughtsSettingTab extends PluginSettingTab {
                 .onChange(async (value) => {
                     this.plugin.settings.excludeFolders = value
                         .split(',')
-                        .map(s => s.trim())
+                        .map(s => normalizePath(s.trim()))
                         .filter(s => s.length > 0);
                     await this.plugin.saveSettings();
                 }));
 
         // Template content
-        containerEl.createEl('h3', { text: 'Template Customization' });
+        new Setting(containerEl).setHeading().setName('Template');
         containerEl.createEl('p', { 
             text: 'Customize the template for connection notes. Available variables: {{title}}, {{note1}}, {{note2}}, {{content}}, {{date}}',
             cls: 'setting-item-description'
