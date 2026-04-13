@@ -2,7 +2,8 @@
 
 > See connections others miss
 
-Train creative thinking by connecting notes across your vault. Manual reflection, not automation. Understanding, not just finding.
+Train creative thinking by connecting notes across your vault. 
+Manual reflection, not automation. Understanding, not just finding.
 
 ## Table of Contents
 
@@ -133,6 +134,21 @@ Think of standard wiki links like `void*` pointers in C++:
 **Standard Link**: A road. You drive across it to the destination.
 **Connection Note**: A rest stop. You must pause and articulate WHY this road exists.
 
+``````mermaid
+graph LR
+    A[Note A:<br/>Topic A] -.->|void* link<br/>implicit| B[Note B:<br/>Topic B]
+    
+    A2[Note A:<br/>Topic A] -->|Connection Note<br/>explicit contract| C[Connection Interface:<br/>Why they connect]
+    C --> B2[Note B:<br/>Topic B]
+    
+    style A fill:#f9f9f9,color:#666666
+    style B fill:#f9f9f9,color:#666666
+    style A2 fill:#E8D5C4,color:#666666
+    style B2 fill:#E8D5C4,color:#666666
+    style C fill:#7FA99B,color:#666666
+``````
+\```
+
 #### Header vs. Implementation
 
 In C++, we separate **what** is done (header/interface) from **how** it's done (implementation).
@@ -189,7 +205,7 @@ This elevates linking from a technical necessity ("I want to click there") to an
 - Focused exploration
 - "How does this relate to my project?"
 
-**Manual Mode** *(coming soon)*
+**Manual Mode**
 - You choose both notes
 - Follow your intuition
 - Deliberate connections
@@ -379,9 +395,9 @@ Show/hide chain link icon in left sidebar for quick access.
 
 ![Screenshot Connection](./attachments/screenshot_connection.png)
 
-### Daily Practice (5-10 Minutes)
+### How could a regular practice look like 
 
-**Morning routine:**
+**Morning routine:** (5-10 Minutes)
 - Coffee + open Obsidian
 - Create one connection
 - Write brief reflection
@@ -463,9 +479,9 @@ Added "dress rehearsal week" to our launch process. Caught three major issues be
 
 ---
 
-### Example 3: Pattern Recognition (After 3 Months)
+### Example 3: Pattern Recognition
 
-**Analyzed 90 connection notes. Patterns emerged:**
+**Analyzed ~90 connection notes. Patterns emerged:**
 
 **Pattern 1**: I connect engineering → everything (40% of connections)
 - Engineering + cooking
@@ -496,13 +512,7 @@ Understanding my cognitive style helps me:
 
 ## Feature Roadmap
 
-**v0.1.0** ✅ (Current)
-- Two connection modes (random, contextual, manual)
-- Exclude folders
-- Custom templates
-- Privacy-first design
-
-**Future Ideas** (Community-Driven)
+**Overview on some of the ideas** (Community-Driven)
 - Include folders
 - Preview option for notes while connecting
 - "Reflect Later" queue
